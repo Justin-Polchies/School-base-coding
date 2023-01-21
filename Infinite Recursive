@@ -1,0 +1,18 @@
+#include <stdio.h>
+
+int repeat (int n)
+
+int main (){
+	
+	repeat(1);
+	
+}
+
+
+int repeat ( int n ){
+	
+	if(n==0){
+		return 0;
+	}else{
+		return n+repeat(1);
+}
