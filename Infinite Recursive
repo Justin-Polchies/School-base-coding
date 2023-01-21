@@ -1,11 +1,11 @@
 #include <stdio.h>
 
-int repeat (int n)
+int repeat (int n);
 
 int main (){
-	
-	repeat(1);
-	
+	int n = 0;
+	repeat(n);
+	return 0;
 }
 
 
@@ -14,5 +14,6 @@ int repeat ( int n ){
 	if(n==0){
 		return 0;
 	}else{
-		return n+repeat(1);
+		return repeat(n +1);
+	}
 }
