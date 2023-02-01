@@ -3,31 +3,25 @@
 
 int main() {
 
-    FILE *theFile, * newFile;
-    char ch;
+    FILE * newFile;
+    char ch[100] = "Another rides the Bus and another one goes and another ones goes. Another one Rides the Buss\n";
 
-    theFile = fopen("File_2.txt", "r");
+   
     newFile = fopen("file_1.txt", "w");
 
-    if (theFile == NULL) {
+    if (newFile == NULL) {
         printf("File does not Exist\n");
     }
     else {
-        do {
-
-            ch = fgetc(theFile);
-            fputc(ch, newFile);
+        while (1) {
+            fputs(ch, newFile);
             usleep(50000);
-
-        } while (ch != EOF);
-
+        }
     }
 
 
 
 
     fclose(newFile);
-    fclose(theFile);
-
     return 0;
 }
