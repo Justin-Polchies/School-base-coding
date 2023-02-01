@@ -1,9 +1,10 @@
 #include <stdio.h>
-#include <unistd.h>
+#include <unistd.h> //usleep would not work unless this was included
 
 int main() {
 
-    FILE * newFile;
+    //
+    FILE *newFile;
     char ch[100] = "Another rides the Bus and another one goes and another ones goes. Another one Rides the Buss\n";
 
    
