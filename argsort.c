@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-int compare(const void* firstStr, const void* secondStr);
+int compareStrings(const void* firstStr, const void* secondStr);
 
 int main(int argc, char* argv[])
 {   
@@ -25,7 +25,7 @@ int main(int argc, char* argv[])
 
     int charSize = argc - 1;
     //sort the strings by length
-    qsort(charString, charSize, sizeof(char*), compare);
+    qsort(charString, charSize, sizeof(char*), compareStrings);
 
     //Print out the results from qsort
     for (; a < charSize; a++) {
@@ -35,7 +35,7 @@ int main(int argc, char* argv[])
 }
 
 //to compare the strings and their lengths putting them in order by smaller to larger (length)
-int compare(const void* firstStr, const void* secondStr) {
+int compareStrings(const void* firstStr, const void* secondStr) {
 
     char* first_str = *(char**)firstStr;
     char* second_str = *(char**)secondStr;
