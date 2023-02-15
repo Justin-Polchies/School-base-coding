@@ -18,7 +18,7 @@ int main(int argc, char* argv[])
     }
 
     //fill a Char array with the argv values from the command line.
-    for (int i = 1; i < argc; i++) {
+    for (; i < argc; i++) {
         charString[i - 1] = argv[i];
     }
 
@@ -28,7 +28,7 @@ int main(int argc, char* argv[])
     qsort(charString, charSize, sizeof(char*), compare);
 
     //Print out the results from qsort
-    for (a = 0; a < charSize; a++) {
+    for (; a < charSize; a++) {
         printf("%s \n", charString[a]);
     }
     return 0;
