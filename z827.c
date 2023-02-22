@@ -35,6 +35,7 @@ void compressIt(char* argv[], int n) {
         for (int j = 0; j < 8; j++) {
             if (j != 0) {
                 printf("%d\n", !!((c[i] << j) & 0x80));
+                counter++;
             }
         }
         
