@@ -23,6 +23,7 @@ int main(int argc, char* argv[]) {
 
 void compressIt(char* argv[], int n) {
     unsigned char* c = (char*)malloc(n * sizeof(char));
+    unsigned int* k = (int*)malloc(n * sizeof(int));
 
     printf("%s\n", argv[1]);
 
@@ -31,7 +32,12 @@ void compressIt(char* argv[], int n) {
     int counter = 0;
 
     for (int i = 0; i < 8; i++) {
-        printf("%d\n", !!((c[0] << i) & 0x80));
+        for (int j = 0; j < 8; j++) {
+            if (j != 0) {
+                printf("%d\n", !!((c[i] << j) & 0x80));
+            }
+        }
+        
         
     }
 
