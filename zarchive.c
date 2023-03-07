@@ -5,22 +5,7 @@
 
 
 int checkForFile(char* argv[]);
-
-struct header {
-    unsigned int uid;
-    char owner[64];
-    unsigned int n_files;
-    unsigned int options;
-};
-
-struct file {
-    size_t size:
-    time_t timestamp;
-    char filename[256];
-};
-
-
-
+void checkForDir();
 
 
 int main(int argc, char* argv[]) {
@@ -38,9 +23,9 @@ int main(int argc, char* argv[]) {
             printf("finding file now.\n");
         }
     }
-    char cc = argv[1][0];
 
-    printf("%c\n", cc);
+    checkForDir();
+    return 0;
 }
 
 int checkForFile(char* argv[]) {
@@ -49,5 +34,18 @@ int checkForFile(char* argv[]) {
     return (stat(argv[2], &buf) == 0);
 }
 
+void checkForDir() {
+    struct stat dir = { 0 };
 
+
+    char* cd;
+    cd = getcwd(NULL, 0);
+
+    strcat(cd, "/archive");
+    printf("%s\n", cd);
+
+    if (stat(cd, &dir) == -1) {
+        mkdir(cd, 777);
+    }
+}
 
