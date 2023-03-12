@@ -8,7 +8,23 @@ int checkForFile(char* argv[]);
 void checkForDir();
 
 
+struct header {
+
+    unsigned int uid;
+    char owner[64];
+    unsigned int files_tot;
+    unsigned int options;
+};
+
+struct file {
+    size_t size;
+    time_t timestamp;
+    char filename[256];
+};
+
 int main(int argc, char* argv[]) {
+
+
 
     if (checkForFile(argv) == 0) {
 
@@ -17,6 +33,7 @@ int main(int argc, char* argv[]) {
     else {
         if (!(strcmp(argv[1], "c"))) {
             printf("Archiving file.\n");
+            archive();
         }
 
         if (!strcmp(argv[1], "x")) {
@@ -24,8 +41,9 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    checkForDir();
+
     return 0;
+
 }
 
 int checkForFile(char* argv[]) {
@@ -49,3 +67,33 @@ void checkForDir() {
     }
 }
 
+void archive() {
+
+    int n;
+    struct dirent** files;
+    printf("The Following is a list of files found in the Current Directory.\n");
+    printf("Please Enter in the files that need to be archived.\n")
+
+    n = scandir(getcwd(NULL, 0), &files, NULL, alphasort);
+    while (n--) {
+
+        printf("%s\n", files[n]->d_name);
+        free(files[n]);
+    }
+
+    uid_t uid = getuid();
+    printf("%d\n", uid);
+
+    pd = getpwuid(uid);
+    printf("%s\n", pd->pw_name);
+
+    checkForDir();
+}
+void unarhive() {
+
+}
+
+void getuserinfo() {
+    getuid();
+    getpwuid();
+}
