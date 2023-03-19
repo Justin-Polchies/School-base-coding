@@ -71,24 +71,22 @@ void archive() {
 
     int n;
     struct dirent** files;
+
     printf("The Following is a list of files found in the Current Directory.\n");
-    printf("Please Enter in the files that need to be archived.\n")
+    printf("Please Enter in the files that need to be archived.\n");
+    printf("\n");
 
     n = scandir(getcwd(NULL, 0), &files, NULL, alphasort);
+
     while (n--) {
 
         printf("%s\n", files[n]->d_name);
         free(files[n]);
     }
 
-    uid_t uid = getuid();
-    printf("%d\n", uid);
 
-    pd = getpwuid(uid);
-    printf("%s\n", pd->pw_name);
-
-    checkForDir();
 }
+
 void unarhive() {
 
 }
