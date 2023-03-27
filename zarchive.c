@@ -2,6 +2,7 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include <string.h>
+#include <time.h>
 
 
 int checkForFile(char* argv[]);
@@ -16,7 +17,7 @@ struct header {
     unsigned int options;
 };
 
-struct file {
+struct FileHeader {
     size_t size;
     time_t timestamp;
     char filename[256];
@@ -70,8 +71,19 @@ void checkForDir() {
 void archive() {
 
     int n, totalfiles;
-    char line[128], temp;
+    char line[128], temp[3];
     struct dirent** files;
+    FILE* fp;
+
+    struct header h;
+
+    h.uid = geteuid();
+    printf("%d\n", h.uid);
+
+
+
+
+
 
     printf("The Following is a list of files found in the Current Directory.\n");
     printf("\n");
@@ -87,10 +99,26 @@ void archive() {
     fgets(temp, sizeof(temp), stdin);
     totalfiles = atoi(temp);
 
+    struct FileHeader fh[totalfiles];
 
     for (int i = 0; i < totalfiles; i++) {
+
+
         printf("What File you want to archive?\n");
         fgets(line, sizeof(line), stdin);
+        printf("%s", line);
+        strtok(line, "\n");
+
+        fp = fopen(line, "r");
+        if (fp == NULL) {
+
+            printf("NO FILE FOUND!!!!!!\n");
+        }
+        fseek(fp, 0, SEEK_END);
+        fh[i].size = ftell(fp);
+        strcpy(fh[i].filename, line);
+        fh[i].timestamp = time(0);
+
     }
 }
 
