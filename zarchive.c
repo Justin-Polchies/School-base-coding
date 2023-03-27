@@ -73,7 +73,6 @@ void archive() {
     struct dirent** files;
 
     printf("The Following is a list of files found in the Current Directory.\n");
-    printf("Please Enter in the files that need to be archived.\n");
     printf("\n");
 
     n = scandir(getcwd(NULL, 0), &files, NULL, alphasort);
