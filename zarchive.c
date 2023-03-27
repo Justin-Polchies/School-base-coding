@@ -69,7 +69,8 @@ void checkForDir() {
 
 void archive() {
 
-    int n;
+    int n, totalfiles;
+    char line[128], temp;
     struct dirent** files;
 
     printf("The Following is a list of files found in the Current Directory.\n");
@@ -82,15 +83,17 @@ void archive() {
         printf("%s\n", files[n]->d_name);
         free(files[n]);
     }
+    printf("How many files are you archiving today?\n");
+    fgets(temp, sizeof(temp), stdin);
+    totalfiles = atoi(temp);
 
 
+    for (int i = 0; i < totalfiles; i++) {
+        printf("What File you want to archive?\n");
+        fgets(line, sizeof(line), stdin);
+    }
 }
 
 void unarhive() {
 
-}
-
-void getuserinfo() {
-    getuid();
-    getpwuid();
 }
