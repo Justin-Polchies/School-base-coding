@@ -1,12 +1,13 @@
+
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/stat.h>
 #include <string.h>
+#include <dirent.h>
+#include <stdlib.h>
 #include <time.h>
+#include <pwd.h>
 
-
-int checkForFile(char* argv[]);
-void checkForDir();
 
 
 struct header {
@@ -23,28 +24,30 @@ struct FileHeader {
     char filename[256];
 };
 
+
+
+int checkForFile(char* argv[]);
+void checkForDir();
+void archive();
+void unarchive();
+
 int main(int argc, char* argv[]) {
 
 
 
-    if (checkForFile(argv) == 0) {
+    if (!(strcmp(argv[1], "c"))) {
 
-        printf("Error: No File Found\n");
+        archive();
     }
-    else {
-        if (!(strcmp(argv[1], "c"))) {
-            printf("Archiving file.\n");
-            archive();
-        }
 
-        if (!strcmp(argv[1], "x")) {
-            printf("finding file now.\n");
-        }
+    if (!strcmp(argv[1], "x")) {
+        unarchive();
     }
+
+
 
 
     return 0;
-
 }
 
 int checkForFile(char* argv[]) {
@@ -52,6 +55,8 @@ int checkForFile(char* argv[]) {
     struct stat buf;
     return (stat(argv[2], &buf) == 0);
 }
+
+
 
 void checkForDir() {
     struct stat dir = { 0 };
@@ -66,23 +71,27 @@ void checkForDir() {
     if (stat(cd, &dir) == -1) {
         mkdir(cd, 777);
     }
+
+
 }
 
 void archive() {
 
+
+    uid_t idn;
+    struct header h;
+    idn = geteuid();
+    printf("%d\n", idn);
+    printf("hello\n");
+    struct passwd* pw = getpwuid(idn);
+    strcpy(h.owner, pw->pw_name);
+    printf("%s\n", h.owner);
+    printf("hello\n");
+
     int n, totalfiles;
-    char line[128], temp[3];
+    char line[128], temp[3], name[25];
     struct dirent** files;
     FILE* fp;
-
-    struct header h;
-
-    h.uid = geteuid();
-    printf("%d\n", h.uid);
-
-
-
-
 
 
     printf("The Following is a list of files found in the Current Directory.\n");
@@ -98,6 +107,9 @@ void archive() {
     printf("How many files are you archiving today?\n");
     fgets(temp, sizeof(temp), stdin);
     totalfiles = atoi(temp);
+
+    h.files_tot = totalfiles;
+    printf("Total file in zip: %d\n", h.files_tot);
 
     struct FileHeader fh[totalfiles];
 
@@ -119,9 +131,14 @@ void archive() {
         strcpy(fh[i].filename, line);
         fh[i].timestamp = time(0);
 
+
+
     }
+
+
 }
 
-void unarhive() {
+
+void unarchive() {
 
 }
