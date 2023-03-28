@@ -26,10 +26,10 @@ struct FileHeader {
 
 
 
-int checkForFile(char* argv[]);
+int checkForFile(int argc, char* argv[]);
 void checkForDir();
-void archive();
-void unarchive();
+void archive(int argc, char* argv[]);
+void unarchive(int argc, char* argv[]);
 
 int main(int argc, char* argv[]) {
 
@@ -50,13 +50,16 @@ int main(int argc, char* argv[]) {
     return 0;
 }
 
-int checkForFile(char* argv[]) {
+int checkForFile(int argc, char* argv[]) {
 
+    printf("%s\n", argv[3]);
+    printf("%s\n", argv[1]);
+    printf("%s\n", argv[0]);
+
+    printf("%d\n", argc);
     struct stat buf;
     return (stat(argv[2], &buf) == 0);
 }
-
-
 
 void checkForDir() {
     struct stat dir = { 0 };
@@ -75,7 +78,7 @@ void checkForDir() {
 
 }
 
-void archive() {
+void archive(int argc, char* argv[]) {
 
 
     uid_t idn;
@@ -89,7 +92,7 @@ void archive() {
     printf("hello\n");
 
     int n, totalfiles;
-    char line[128], temp[3], name[25];
+    char line[128], temp[3], arcname[25];
     struct dirent** files;
     FILE* fp;
 
@@ -107,11 +110,16 @@ void archive() {
     printf("How many files are you archiving today?\n");
     fgets(temp, sizeof(temp), stdin);
     totalfiles = atoi(temp);
-
     h.files_tot = totalfiles;
-    printf("Total file in zip: %d\n", h.files_tot);
-
+    
     struct FileHeader fh[totalfiles];
+
+    FILE* fwr;
+    if (argc <= 2) {
+        printf("No Archive file name was given. Please enter one now\n");
+        fgets(arcname, sizeof(arcname), stdin);
+        strcpy(arcname, ".z");
+    }
 
     for (int i = 0; i < totalfiles; i++) {
 
@@ -139,6 +147,6 @@ void archive() {
 }
 
 
-void unarchive() {
+void unarchive(int argc, char* argv[]) {
 
 }
