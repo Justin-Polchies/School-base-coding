@@ -84,12 +84,8 @@ void archive(int argc, char* argv[]) {
     uid_t idn;
     struct header h;
     idn = geteuid();
-    printf("%d\n", idn);
-    printf("hello\n");
     struct passwd* pw = getpwuid(idn);
     strcpy(h.owner, pw->pw_name);
-    printf("%s\n", h.owner);
-    printf("hello\n");
 
     int n, totalfiles;
     char line[128], temp[3], arcname[25];
@@ -111,22 +107,28 @@ void archive(int argc, char* argv[]) {
     fgets(temp, sizeof(temp), stdin);
     totalfiles = atoi(temp);
     h.files_tot = totalfiles;
-    
+
     struct FileHeader fh[totalfiles];
 
     FILE* fwr;
     if (argc <= 2) {
         printf("No Archive file name was given. Please enter one now\n");
         fgets(arcname, sizeof(arcname), stdin);
-        strcpy(arcname, ".z");
+        strtok(arcname, "\n");
+        strcat(arcname, ".txt");
     }
+
+    if (arcname != NULL) {
+
+        fwr = fopen(arcname, "w");
+        fwrite(&h, sizeof(struct header), 1, fwr);
+    }
+
 
     for (int i = 0; i < totalfiles; i++) {
 
-
         printf("What File you want to archive?\n");
         fgets(line, sizeof(line), stdin);
-        printf("%s", line);
         strtok(line, "\n");
 
         fp = fopen(line, "r");
@@ -134,19 +136,29 @@ void archive(int argc, char* argv[]) {
 
             printf("NO FILE FOUND!!!!!!\n");
         }
+
         fseek(fp, 0, SEEK_END);
         fh[i].size = ftell(fp);
         strcpy(fh[i].filename, line);
         fh[i].timestamp = time(0);
+        fseek(fp, 0, SEEK_SET);
+        fwrite(&fh, sizeof(struct FileHeader), 1, fwr);
 
+        char ch;
+        ch = fgetc(fp);
 
-
+        while (ch != EOF) {
+            fputc(ch, fwr);
+            ch = fgetc(fp);
+        }
+        printf("\nCopied good.\n");
     }
 
-
+    fclose(fp);
+    fclose(fwr);
 }
 
+void unarchive() {
 
-void unarchive(int argc, char* argv[]) {
 
 }
