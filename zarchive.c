@@ -29,7 +29,7 @@ struct FileHeader {
 int checkForFile(int argc, char* argv[]);
 void checkForDir();
 void archive(int argc, char* argv[]);
-void unarchive(int argc, char* argv[]);
+void unarchive();
 
 int main(int argc, char* argv[]) {
 
